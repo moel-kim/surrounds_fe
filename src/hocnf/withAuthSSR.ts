@@ -8,6 +8,16 @@ import { GetServerSideProps } from 'next';
 const withAuthSSR = (getServerSidePropsFunc?: GetServerSideProps): GetServerSideProps => {
   return withStoreSSR((store) => {
     return async (ctx) => {
+      const result = await apiValidate();
+      store.dispatch(
+        setUserInfo({
+          email: result.email,
+          username: result.username,
+          profile_image: result.profile_image,
+        })
+      );
+      return await getServerSidePropsFunc?.(ctx);
+
       const authState = store.getState().auth;
       if (authState.isLogin) {
         return await getServerSidePropsFunc?.(ctx);

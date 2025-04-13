@@ -22,7 +22,13 @@ const UserProfile: ForwardRefRenderFunction<HTMLDivElement, UserProfileProps> = 
       )}
     >
       {profile_image ? (
-        <ImageWrapper src={profile_image} layout="fill" alt="profile" />
+        <ImageWrapper
+          src={profile_image}
+          layout="fill"
+          className="rounded-full"
+          objectFit="cover"
+          alt="profile"
+        />
       ) : username ? (
         <h2 className="text-white">{username.charAt(0)}</h2>
       ) : (

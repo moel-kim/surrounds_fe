@@ -10,9 +10,11 @@ const handle = app.getRequestHandler();
 const express = require('express');
 const fs = require('fs');
 
-const httpsOptions = {
-  key: fs.readFileSync('./localhost.key'),
-  cert: fs.readFileSync('./localhost.crt'),
+const httpsOptions = () => {
+  return {
+    key: fs.readFileSync('./localhost.key'),
+    cert: fs.readFileSync('./localhost.crt'),
+  };
 };
 
 app.prepare().then(() => {
@@ -23,7 +25,7 @@ app.prepare().then(() => {
   });
 
   if (enableHttps) {
-    const secureServer = https.createServer(httpsOptions, app);
+    const secureServer = https.createServer(httpsOptions(), app);
     secureServer.listen(port, (err) => {
       if (err) throw err;
       console.log(`> Ready on https://localhost:${port}`);
